@@ -1,0 +1,5 @@
+before running this program, make sure you have installed--
+
+python 3.4.2
+tweepy 3.5.0
+
