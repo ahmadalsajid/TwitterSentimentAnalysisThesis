@@ -47,37 +47,8 @@ print("COC: ",COC)
 total = leagueOfLegends+counterStrike+criminalCase+candycrush+farmheroessaga+PokemonGO+COC+irrelevent_tweet
 print("total related: ",total)
 
-#
-# # plot graph about specific games related tweets
-# import matplotlib.pyplot as plt
-# import numpy as np
-# plt.rcdefaults()
-# x = np.array([leagueOfLegends,counterStrike,criminalCase,candycrush,farmheroessaga,PokemonGO,COC,irrelevent_tweet])
-# x = x/100
-# print(x)
-# fig, ax = plt.subplots()
-# objects = ('leagueOfLegends','counterStrike','criminalCase','candycrush','farmheroessaga','PokemonGO','COC','irrelevent_tweet')
-# y_pos = np.arange(len(objects))
-# bars = plt.bar(y_pos,x,align='center', alpha=.5,color='r')
-# #  test
-# for rect in bars:
-#     height = rect.get_height()
-#     ax.text(rect.get_x() + rect.get_width()/2., 0.99*height,
-#             '%d' % int(height) + "%", ha='center', va='bottom')
-#
-# plt.xticks(y_pos,objects, rotation = 40)
-# plt.ylabel("collected tweets * 100")
-# plt.title("Gamewise Tweets collection")
-# text = 'leagueOfLegends '+str(leagueOfLegends)+'\ncounterStrike '+str(counterStrike)+'\ncriminalCase '+str(criminalCase)\
-#        +'\ncandycrush '+str(candycrush)+'\nfarmheroessaga '+str(farmheroessaga)+'\nPokemonGO '+str(PokemonGO)\
-#        +'\nCOC '+str(COC)+'\nirrelevent_tweet '+str(irrelevent_tweet)
-# plt.text(0.1,45,text)
-# plt.grid(True)
-# plt.show()
-#
 
-
-# plot graph about platform specific games related tweets
+# plot graph about specific games related tweets
 import matplotlib.pyplot as plt
 import numpy as np
 plt.rcdefaults()
@@ -88,7 +59,7 @@ fig, ax = plt.subplots()
 objects = ('leagueOfLegends','counterStrike','criminalCase','candycrush','farmheroessaga','PokemonGO','COC','irrelevent_tweet')
 y_pos = np.arange(len(objects))
 bars = plt.bar(y_pos,x,align='center', alpha=.5,color='r')
-#  test
+#  print percentage in graph bar
 for rect in bars:
     height = rect.get_height()
     ax.text(rect.get_x() + rect.get_width()/2., 0.99*height,
@@ -105,3 +76,26 @@ plt.grid(True)
 plt.show()
 
 
+
+# plot graph about platform specific games related tweets
+x = np.array([leagueOfLegends+counterStrike+candycrush,criminalCase+candycrush+farmheroessaga,PokemonGO+COC+candycrush])
+x = x/100
+print(x)
+fig, ax = plt.subplots()
+objects = ('PC','Browser based', 'mobile')
+y_pos = np.arange(len(objects))
+bars = plt.bar(y_pos,x,align='center', alpha=.5,color='r')
+#  print percentage in graph bar
+for rect in bars:
+    height = rect.get_height()
+    ax.text(rect.get_x() + rect.get_width()/2., 0.99*height,
+            '%d' % int(height) + "%", ha='center', va='bottom')
+
+plt.xticks(y_pos,objects, rotation = 40)
+plt.ylabel("collected tweets * 100")
+plt.title("Platform based Tweets collection")
+text = 'PC    '+str(leagueOfLegends+counterStrike+candycrush)+'\nBrowser based  '\
+    +str(criminalCase+candycrush+farmheroessaga)+'\nmobile  '+str(PokemonGO+COC+candycrush)
+plt.text(0.1,45,text)
+plt.grid(True)
+plt.show()
