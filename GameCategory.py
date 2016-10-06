@@ -1,3 +1,4 @@
+# game list and its hashtags
 games = {
     # MMO
     'WorldOfWarcraft': ['#Warcraft',],
