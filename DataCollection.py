@@ -30,6 +30,7 @@ def main():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     twitter_stream = Stream(auth, MyListener())
+    # taking hashtag list from GameCategory.py
     twitter_stream.filter(track=all_hashtags)
 
 
