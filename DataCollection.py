@@ -14,9 +14,8 @@ class MyListener(StreamListener):
             client = MongoClient('localhost', 27017)
             db = client.tsadb
             tweet = json.loads(raw_data)
-            db.tweetstest.insert(tweet)
+            db.TSAtweets.insert(tweet)
             print('data inserted')
-
             return True
         except:
             print('exception occurred\n\n')       # debug to test if on_data() working or not
