@@ -1,6 +1,7 @@
 before running this program, make sure you have installed--
 
-python 3.4.2
-tweepy 3.5.0
-MongoDB 3.2.8
-
+python      3.4.2
+tweepy      3.5.0
+MongoDB     3.2.8
+matplotlib  1.5.1
+numpy       1.11.1rc1

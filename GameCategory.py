@@ -26,7 +26,7 @@ games = {
     '#DeadEffect2': ['#DeadEffect2',],
     '#GrandTheftAuto': ['#GrandTheftAuto','#GTA','#GTAOnline','#GTAV'],
     '#LaraCroftGo': ['#LaraCroftGo',],
-    '#Samorost3': ['#Samorost3 ',],
+    '#Samorost3': ['#Samorost3',],
     '#KingsQuest': ['#KingsQuest',],
     '#GeminiRue': ['#GeminiRue',],
     '#Panmorphia': ['#Panmorphia',],
@@ -50,7 +50,7 @@ games = {
     # Action
     'Titanfall2': ['#Titanfall','#Titanfall2'],
     'NeedForSpeed': ['#NeedForSpeedMostWanted','#NFSMostWanted','#NFSMW','#NeedforSpeed','#nfs'],
-    'Battlefield': ['#BATTLEFIELD1 #BATTLEFIELD2', '#BATTLEFIELD3', '#BATTLEFIELD4', '#BATTLEFIELDHARDLINE', '#BF1',
+    'Battlefield': ['#BATTLEFIELD1', '#BATTLEFIELD2', '#BATTLEFIELD3', '#BATTLEFIELD4', '#BATTLEFIELDHARDLINE', '#BF1',
                     '#BF2', '#BF3', '#BF4',],
     'dragonage': ['#dragonage','#dragonage2'],
     'DeadSpace': ['#DeadSpace', '#DeadSpace1', '#DeadSpace2', '#DeadSpace3',],
@@ -65,7 +65,7 @@ games = {
     'EightBallPool': ['#EightBallPool','#8ballPool'],
     'MafiaReturns': ['#MafiaReturns',],
     'TownofSalem': ['#TownofSalem',],
-    'litherio': ['#slitherio',],
+    'slitherio': ['#slitherio',],
     'MightandMagic': ['#MightandMagic',],
     'candyCrushsodasaga': ['#candyCrushsodasaga', '#candyCrushsoda','#candyCrush'],
     # Sports
