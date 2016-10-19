@@ -1,4 +1,47 @@
+
+########################################################################################################################
+# collect english tweets and store them in EnglishTweets.txt
+# http://stackoverflow.com/questions/6048085/writing-unicode-text-to-a-text-file
+# http://stackoverflow.com/questions/1557571/how-to-get-time-of-a-python-program-execution/1557906#1557906
 import pymongo
+from time import clock
+start_time = clock()
+client = pymongo.MongoClient('localhost', 27017)
+db = client.tsadb
+# tweets = db.TSAtweets.find({"lang": "en"}, {"text": 1, "_id": 0})
+tweets = db.TSAtweets.find(
+    {"$and":
+         [
+             {"lang" : "en"},
+             {"entities.hashtags": {"$gt": []}}
+         ]
+     }, {"text": 1,"_id": 0})
+EnglishTweets = [str(tweet['text']) for tweet in tweets]
+size = len(EnglishTweets)
+print('English tweets:',size)
+error_counter = 0
+with open('EnglishTweets.txt', 'w', encoding="utf-8") as f:
+    for tweet in EnglishTweets:
+        try:
+            tmp = str(tweet)+'\n\n'
+            f.write(tmp)
+        except:
+            error_counter += 1
+print('could not write: ', error_counter)
+print('file ready')
+print('time needed:', round(clock()-start_time, 3), 'seconds')
+########################################################################################################################
+
+
+
+
+
+
+
+
+
+
+'''import pymongo
 time_zone_list = []
 
 client = pymongo.MongoClient('localhost', 27017)
@@ -38,6 +81,4 @@ print(len(unique_time_zone_list))
 # import matplotlib.pyplot as plt
 # plt.bar(range(len(dict_of_time_zone)),dict_of_time_zone.values(), align = 'center')
 # plt.xticks(range(len(dict_of_time_zone)), list(dict_of_time_zone.keys()))
-# plt.show()
-
-
+# plt.show()'''
