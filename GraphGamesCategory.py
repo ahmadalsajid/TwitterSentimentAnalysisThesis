@@ -1,14 +1,15 @@
+from time import clock
+start_time = clock()
 import pymongo
 
 client = pymongo.MongoClient('localhost', 27017)
 db = client.tsadb
 # total tweets
-total_tweet = db.TSAtweets.find().count()
-print(total_tweet)
+total = db.TSAtweets.find().count()
 # irrelevant twit that does not contain any hashtag
 irrelevent_tweet = db.TSAtweets.find({'entities.hashtags': [ ]}).count()
-print("Irrelevant : ",irrelevent_tweet)
-
+#actual tweets
+total_tweet = total - irrelevent_tweet
 # all hashtag in db
 # cursor = db.TSAtweets.find({},{"entities.hashtags.text":1,"_id":0})
 # hashtags = []
@@ -250,10 +251,9 @@ print(roll_playing_game)
 import matplotlib.pyplot as plt
 
 df = {'type':['Massive Multiplayer Online', 'Simulation', 'Adventure_game', 'RealTime Strategy', 'Puzzle', 'Action',
-              'Browser', 'Sports', 'Shooter', 'Roll Playing', 'irrelevent_tweet'] ,
+              'Browser', 'Sports', 'Shooter', 'Roll Playing'] ,
             'count': [massive_multiplayer_online_game, simulation_game, adventure_game, real_time_strategy_game,
-                      puzzle_game,action_game, browser_game, sports_game, shooter_game, roll_playing_game,
-                      irrelevent_tweet],
+                      puzzle_game,action_game, browser_game, sports_game, shooter_game, roll_playing_game],
         }
 # Create a figure with a single subplot
 f, ax = plt.subplots(1, figsize=(10,5))
@@ -293,8 +293,11 @@ ax.set_xlabel("Category")
 plt.title('Strategy based Category Percentage')
 # Let the borders of the graphic
 plt.xlim([min(tick_pos)-bar_width, max(tick_pos)+bar_width])
-plt.ylim(0, 40)
+plt.ylim(0, 45)
 # rotate axis labels
 plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
 # shot plot
 plt.show()
+
+
+print("total time :",round(clock()-start_time,2),"seconds")

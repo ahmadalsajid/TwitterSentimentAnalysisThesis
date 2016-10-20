@@ -1,7 +1,8 @@
-import pymongo
 from time import clock
-import matplotlib.pyplot as plt
 start_time = clock()
+import pymongo
+import matplotlib.pyplot as plt
+
 client = pymongo.MongoClient('localhost', 27017)
 db = client.tsadb
 
