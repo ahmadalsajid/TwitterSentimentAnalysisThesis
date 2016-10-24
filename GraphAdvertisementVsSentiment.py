@@ -7,13 +7,21 @@ import textblob
 import matplotlib.pyplot as plt
 from textblob.classifiers import NaiveBayesClassifier
 import re
+# start_time = clock()
+# with open('training.csv', 'r') as f:
+#     cl = NaiveBayesClassifier(f, format='csv')
+# with open('pickle_adVsSenti/cl.pkl','wb') as f:
+#     pickle.dump(cl, f)
+# print("Training & pickle completed")
+# print("total training time :",round(clock()-start_time,2),"seconds")
+
 start_time = clock()
-with open('training.csv', 'r') as f:
-    cl = NaiveBayesClassifier(f, format='csv')
-with open('pickle_adVsSenti/cl.pkl','wb') as f:
-    pickle.dump(cl, f)
-print("Training & pickle completed")
+with open('pickle_adVsSenti/cl.pkl','rb') as f:
+    cl = pickle.load(f)
+print("pickle classifier obtained")
 print("total training time :",round(clock()-start_time,2),"seconds")
+
+
 start_time = clock()
 client = pymongo.MongoClient('localhost', 27017)
 db = client.tsadb
@@ -24,9 +32,13 @@ cursor = db.TSAtweets.find(
               {'lang': {'$regex': 'en-gb', '$options': 'i'}},
           ]
      }, {"text": 1, "_id": 0})
-with open('pickle_adVsSenti/cursor.pkl','wb') as f:
-    pickle.dump(cursor, f)
-print('Data obtained from db & pickled')
+try:
+    with open('pickle_adVsSenti/cursor.pkl','wb') as f:
+        pickle.dump(cursor, f)
+    print('Data obtained from db & pickled')
+except:
+    pass
+
 print("total data collection from db time :",round(clock()-start_time,2),"seconds")
 start_time = clock()
 data = {
@@ -35,6 +47,7 @@ data = {
 }
 count = 0
 errors = 0
+tmp_time = clock()
 for tweet in cursor:
     try:
         result = re.sub(r"http\S+", "", tweet['text'])
@@ -44,6 +57,12 @@ for tweet in cursor:
         count += 1
         if count %100 ==0 :
             print(count,'tweets tested')
+            try:
+                with open('pickle_adVsSenti/data.pkl','wb') as f:
+                    pickle.dump(data, f)
+                print(count,"tweets classification time :",round(clock()-tmp_time, 2),"seconds")
+            except:
+                pass
     except:
         errors += 1
 
