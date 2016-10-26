@@ -1,5 +1,5 @@
-from time import clock
-start_time = clock()
+# from time import clock
+# start_time = clock()
 import pymongo
 
 client = pymongo.MongoClient('localhost', 27017)
@@ -10,20 +10,6 @@ total = db.TSAtweets.find().count()
 irrelevent_tweet = db.TSAtweets.find({'entities.hashtags': [ ]}).count()
 #actual tweets
 total_tweet = total - irrelevent_tweet
-# all hashtag in db
-# cursor = db.TSAtweets.find({},{"entities.hashtags.text":1,"_id":0})
-# hashtags = []
-# try:
-#     for element in cursor:
-#         for t in element['entities']['hashtags']:
-#             hashtags.append(t['text'])
-# except:
-#     pass
-# print(hashtags)
-# st = set(hashtags)
-# print(st)
-# print(len(st))
-
 # games categorized according to strategy
 massive_multiplayer_online_game = db.TSAtweets.find(
     { "$or":
@@ -235,17 +221,16 @@ roll_playing_game = db.TSAtweets.find(
              {'entities.hashtags.text': {'$regex': 'PlanescapeTorment', '$options':'i'}},
          ]
     }).count()
-print(massive_multiplayer_online_game)
-print(simulation_game)
-print(adventure_game)
-print(real_time_strategy_game)
-print(puzzle_game)
-print(action_game)
-print(browser_game)
-print(sports_game)
-print(shooter_game)
-print(roll_playing_game)
-
+# print(massive_multiplayer_online_game)
+# print(simulation_game)
+# print(adventure_game)
+# print(real_time_strategy_game)
+# print(puzzle_game)
+# print(action_game)
+# print(browser_game)
+# print(sports_game)
+# print(shooter_game)
+# print(roll_playing_game)
 
 # plot graph about categorized games
 import matplotlib.pyplot as plt
@@ -299,5 +284,4 @@ plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
 # shot plot
 plt.show()
 
-
-print("total time :",round(clock()-start_time,2),"seconds")
+# print("total time :",round(clock()-start_time,2),"seconds")

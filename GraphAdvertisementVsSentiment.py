@@ -1,28 +1,22 @@
 # http://stackoverflow.com/questions/24399820/expression-to-remove-url-links-from-twitter-tweet
 import pymongo
 from time import clock
-import pickle
 start_time = clock()
 import textblob
 import matplotlib.pyplot as plt
 from textblob.classifiers import NaiveBayesClassifier
 import re
-# start_time = clock()
-# with open('training.csv', 'r') as f:
-#     cl = NaiveBayesClassifier(f, format='csv')
+
+# train Naive Bayes Classifier with training data set
+with open('training.csv', 'r') as f:
+    cl = NaiveBayesClassifier(f, format='csv')
+# import pickle     # pickle data to save time in case of running program next times
 # with open('pickle_adVsSenti/cl.pkl','wb') as f:
 #     pickle.dump(cl, f)
-# print("Training & pickle completed")
-# print("total training time :",round(clock()-start_time,2),"seconds")
 
-start_time = clock()
-with open('pickle_adVsSenti/cl.pkl','rb') as f:
-    cl = pickle.load(f)
-print("pickle classifier obtained")
-print("total training time :",round(clock()-start_time,2),"seconds")
+# with open('pickle_adVsSenti/cl.pkl','rb') as f:
+#     cl = pickle.load(f)
 
-
-start_time = clock()
 client = pymongo.MongoClient('localhost', 27017)
 db = client.tsadb
 cursor = db.TSAtweets.find(
@@ -32,57 +26,24 @@ cursor = db.TSAtweets.find(
               {'lang': {'$regex': 'en-gb', '$options': 'i'}},
           ]
      }, {"text": 1, "_id": 0})
-try:
-    with open('pickle_adVsSenti/cursor.pkl','wb') as f:
-        pickle.dump(cursor, f)
-    print('Data obtained from db & pickled')
-except:
-    pass
 
-print("total data collection from db time :",round(clock()-start_time,2),"seconds")
-start_time = clock()
 data = {
     'advertisement': 0,
     'sentiment': 0,
 }
 count = 0
 errors = 0
-tmp_time = clock()
 for tweet in cursor:
     try:
         result = re.sub(r"http\S+", "", tweet['text'])
-        res = cl.classify(result)
-        res = res.strip().lower()
-        data[res] += 1
+        res = cl.classify(result)       # classify text
+        res = res.strip().lower()       # strip spaces and get to lower case
+        data[res] += 1                  # increment count for related tweet
         count += 1
-        if count %100 ==0 :
-            print(count,'tweets tested')
-            try:
-                with open('pickle_adVsSenti/data.pkl','wb') as f:
-                    pickle.dump(data, f)
-                print(count,"tweets classification time :",round(clock()-tmp_time, 2),"seconds")
-            except:
-                pass
     except:
         errors += 1
-
-with open('pickle_adVsSenti/data.pkl','wb') as f:
-    pickle.dump(data, f)
-with open('pickle_adVsSenti/count.pkl','wb') as f:
-    pickle.dump(count, f)
-with open('pickle_adVsSenti/errors.pkl','wb') as f:
-    pickle.dump(errors, f)
-
-print(data)
-print(count,errors)
-print("total classification time :",round(clock()-start_time,2),"seconds")
-start_time = clock()
-
-# import csv
-# xfile = open('training.csv')
-# reader = csv.reader(xfile)
-# xdata = list(reader)
-# print(xdata)
+# print(data)
+# print(count,errors)
 
 ########################################################################################################################
 # code snippet 2: plot percentage of advertisement vs. sentiment
@@ -91,8 +52,7 @@ df = {
     'type': ['Sentiment', 'Advertisement'],
     'count': [data['sentiment'], data['advertisement']],    # user count
 }
-
-print(df)
+# print(df)
 total_user = data['sentiment']+data['advertisement']
 print("Total user:",total_user)
 # Create a figure with a single subplot
@@ -140,5 +100,4 @@ plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
 plt.show()
 
 ########################################################################################################################
-
-print("total graph time :",round(clock()-start_time,2),"seconds")
+# print("total graph time :",round(clock()-start_time,2),"seconds")

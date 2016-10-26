@@ -1,50 +1,31 @@
 from time import clock
 start_time = clock()
-import pickle
 import matplotlib.pyplot as plt
+import pymongo
 
-########################################################################################################################
-# code snippet 1: create pickle file
-# import pymongo
-# client = pymongo.MongoClient('localhost', 27017)
-# db = client.tsadb
-# language_count = {
-#     # used to store language count like below, original dict is generated later
-#     # 'en': 100,
-#     # 'bn: '200,
-# }
-#
-# cursor = db.TSAtweets.find({},{"lang":1, "_id":0})
-# language_list = []  # all languages from tweets
-# for element in cursor:
-#     try:
-#         language_list.append(element['lang'])
-#     except:
-#         pass
-# print(len(language_list))
-# with open("pickle_GraphAccordingLanguage/language_list.pkl",'wb') as f:
-#     pickle.dump(language_list,f)    # pickle language_list to use later
-#
-# unique_language_list = set(language_list)   # get the unique language names
-# with open("pickle_GraphAccordingLanguage/unique_language_list.pkl",'wb') as f:
-#     pickle.dump(unique_language_list,f) # pickle unique_language_list to use later
+client = pymongo.MongoClient('localhost', 27017)
+db = client.tsadb
+language_count = {
+    # used to store language count like below, original dict is generated later
+    # 'en': 100,
+    # 'bn: '200,
+}
+
+cursor = db.TSAtweets.find({},{"lang":1, "_id":0})
+language_list = []  # all languages from tweets
+for element in cursor:
+    try:
+        language_list.append(element['lang'])
+    except:
+        pass
+unique_language_list = set(language_list)   # get the unique language names
 # print(unique_language_list)
-# for lang in unique_language_list:   # set language count to 0 in language count
-#     language_count[lang] = 0
-# for lang in language_list:  # count every language and store them to language cunt
-#     language_count[lang] +=1
-# with open("pickle_GraphAccordingLanguage/language_count.pkl",'wb') as f:
-#     pickle.dump(language_count,f)    # pickle language_count to use later
-#
+for lang in unique_language_list:   # set language count to 0 in language count
+    language_count[lang] = 0
+for lang in language_list:  # count every language and store them to language cunt
+    language_count[lang] +=1
 ########################################################################################################################
-# code snippet 2: get pickled data and graph them according to first 10 language
-
-with open("pickle_GraphAccordingLanguage/language_list.pkl",'rb') as f:
-    language_list = pickle.load(f)    # load language_list to use
-with open("pickle_GraphAccordingLanguage/unique_language_list.pkl",'rb') as f:
-    unique_language_list = pickle.load(f) # load unique_language_list to use
-with open("pickle_GraphAccordingLanguage/language_count.pkl",'rb') as f:
-    language_count = pickle.load(f)    # load language_count to use
+# code snippet 2: data and graph them according to first 10 language
 language_count['und'] = 0
 most_user = sorted(language_count, key=language_count.get, reverse=True)[:5]
 df = {
@@ -52,13 +33,12 @@ df = {
     'count': [],    # user count
 }
 for n in most_user:
-    print(n, language_count[n])
     df['type'].append(str(n))
     df['count'].append(language_count[n])
-print(most_user)
-print(df)
+# print(most_user)
+# print(df)
 total_user = sum(language_count.values())
-print("Total user:",total_user)
+# print("Total user:",total_user)
 # Create a figure with a single subplot
 f, ax = plt.subplots(1, figsize=(10,5))
 # Set bar width at 1
@@ -106,7 +86,7 @@ plt.show()
 ########################################################################################################################
 
 ########################################################################################################################
-# Code    Language (region)
+# Code    Language (region) used by twitter
 # af      Afrikaans
 # ar-ae   Arabic (U.A.E.)
 # ar-bh   Arabic (Bahrain)
