@@ -6,8 +6,7 @@ client = pymongo.MongoClient('localhost', 27017)
 db = client.tsadb
 # cursor to store distinct user id from db
 cursor = db.TSAtweets.distinct("user.id_str")
-print(len(cursor))
-exit(0)
+# print(len(cursor))
 # already got info about them
 already_exist = db.DistinctUser.distinct("user.id_str")
 # take every distinct user id from cursor and get their details from TSAtweets and store to new db DistinctUser
